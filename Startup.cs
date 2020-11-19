@@ -28,13 +28,12 @@ namespace db_stuff
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
             
-            services.AddDbContext<Context>(options => options.UseSqlServer
+            services.AddDbContext<RecordContext>(options => options.UseSqlServer
             (Configuration.GetConnectionString("DBConnection")));
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
+            services.AddControllers();
             // services.AddScoped<IRepo, MockRepo>();
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<IRepo, SqlRepo>();
         }
 

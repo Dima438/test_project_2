@@ -2,10 +2,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DBStuff.Models
 {
-    public class Context : DbContext
+    public class RecordContext : DbContext
     {
         public DbSet<Record> Records {get; set;}
-        public Context(DbContextOptions<DbContext> options) : base(options)
+        public RecordContext(DbContextOptions<RecordContext> options) : base(options)
         {
             
         }

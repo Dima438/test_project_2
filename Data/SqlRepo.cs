@@ -6,9 +6,9 @@ namespace DBStuff.Data
 {
     public class SqlRepo : IRepo
     {
-        private readonly Context _context;
+        private readonly RecordContext _context;
 
-        public SqlRepo(Context context)
+        public SqlRepo(RecordContext context)
         {
             _context = context;
         }

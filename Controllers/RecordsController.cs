@@ -30,7 +30,7 @@ namespace DBStuff.Controllers
             records = _repo.GetAllRecords();
             dtos = _mapper.Map<IEnumerable<RecordReadDTO>>(records);
 
-            return Ok(records);
+            return Ok(dtos);
         }
         [HttpGet("{id}")]
         public ActionResult<RecordReadDTO> GetRecordById(int id)
