@@ -46,5 +46,17 @@ namespace DBStuff.Controllers
             
             return NotFound();
         }
+
+        [HttpPost]
+        public ActionResult<RecordReadDTO> CreateRecord(RecordCreateDTO createDto)
+        {
+            Record record;
+
+            record = _mapper.Map<Record>(createDto);
+            _repo.CreateRecord(record);
+            _repo.SaveChanges();
+
+            return Ok(record);
+        }
     }
 }
