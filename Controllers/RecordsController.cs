@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using DBStuff.Models;
 using DBStuff.Data;
 using System.Linq;
+using AutoMapper;
+using DBStuff.Dto;
 
 namespace DBStuff.Controllers
 {
@@ -11,28 +13,38 @@ namespace DBStuff.Controllers
     public class RecordsController : ControllerBase
     {
         private readonly IRepo _repo;
-        public RecordsController(IRepo repo)
+        private readonly IMapper _mapper;
+
+        public RecordsController(IRepo repo, IMapper mapper)
         {
             _repo = repo;
+            _mapper = mapper;
         }
         // private readonly MockRepo _mock_repo = new MockRepo();
         [HttpGet]
-        public ActionResult<IEnumerable<Record>> GetAllRecords()
+        public ActionResult<IEnumerable<RecordReadDTO>> GetAllRecords()
         {
-            List<Record> records;
+            System.Collections.Generic.IEnumerable<Record> records;
+            System.Collections.Generic.IEnumerable<RecordReadDTO> dtos;
 
-            records = _repo.GetAllRecords().ToList<Record>();
+            records = _repo.GetAllRecords();
+            dtos = _mapper.Map<IEnumerable<RecordReadDTO>>(records);
 
             return Ok(records);
         }
         [HttpGet("{id}")]
-        public ActionResult<Record> GetRecordById(int id)
+        public ActionResult<RecordReadDTO> GetRecordById(int id)
         {
             Record record;
+            RecordReadDTO dto;
 
             record = _repo.GetRecordById(id);
+            dto = _mapper.Map<RecordReadDTO>(record);
 
-            return Ok(record);
+            if (record != null)
+                return Ok(dto);
+            
+            return NotFound();
         }
     }
 }

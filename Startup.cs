@@ -13,6 +13,7 @@ using Microsoft.Extensions.Logging;
 using DBStuff.Data;
 using DBStuff.Models;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
 
 namespace db_stuff
 {
@@ -28,9 +29,13 @@ namespace db_stuff
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddScoped<IRepo, MockRepo>();
+            
             services.AddDbContext<Context>(options => options.UseSqlServer
             (Configuration.GetConnectionString("DBConnection")));
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            // services.AddScoped<IRepo, MockRepo>();
+            services.AddScoped<IRepo, SqlRepo>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
