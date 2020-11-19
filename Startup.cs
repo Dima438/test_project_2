@@ -10,6 +10,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using DBStuff.Data;
+using DBStuff.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace db_stuff
 {
@@ -25,6 +28,9 @@ namespace db_stuff
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddScoped<IRepo, MockRepo>();
+            services.AddDbContext<Context>(options => options.UseSqlServer
+            (Configuration.GetConnectionString("DBConnection")));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -34,11 +40,11 @@ namespace db_stuff
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            // app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

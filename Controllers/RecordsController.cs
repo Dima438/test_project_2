@@ -10,13 +10,18 @@ namespace DBStuff.Controllers
     [ApiController]
     public class RecordsController : ControllerBase
     {
-        private readonly MockRepo _mock_repo = new MockRepo();
+        private readonly IRepo _repo;
+        public RecordsController(IRepo repo)
+        {
+            _repo = repo;
+        }
+        // private readonly MockRepo _mock_repo = new MockRepo();
         [HttpGet]
         public ActionResult<IEnumerable<Record>> GetAllRecords()
         {
             List<Record> records;
 
-            records = _mock_repo.GetAllRecords().ToList<Record>();
+            records = _repo.GetAllRecords().ToList<Record>();
 
             return Ok(records);
         }
@@ -25,7 +30,7 @@ namespace DBStuff.Controllers
         {
             Record record;
 
-            record = _mock_repo.GetRecordById(id);
+            record = _repo.GetRecordById(id);
 
             return Ok(record);
         }
