@@ -32,7 +32,7 @@ namespace DBStuff.Controllers
 
             return Ok(dtos);
         }
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name="GetRecordById")]
         public ActionResult<RecordReadDTO> GetRecordById(int id)
         {
             Record record;
@@ -51,12 +51,33 @@ namespace DBStuff.Controllers
         public ActionResult<RecordReadDTO> CreateRecord(RecordCreateDTO createDto)
         {
             Record record;
+            RecordReadDTO recordReadDTO;
 
             record = _mapper.Map<Record>(createDto);
             _repo.CreateRecord(record);
             _repo.SaveChanges();
 
-            return Ok(record);
+            recordReadDTO = _mapper.Map<RecordReadDTO>(record);
+
+            // return Ok(recordReadDTO);
+            return CreatedAtRoute(nameof(GetRecordById), new {recordReadDTO.Id}, recordReadDTO); //wtf is this?
+        }
+
+        [HttpPut("{Id}")]
+        public ActionResult UpdateRecord(int id, RecordUpdateDTO updateDTO)
+        {
+            Record recordFromRepo;
+
+            recordFromRepo = _repo.GetRecordById(id);
+
+            if (recordFromRepo == null)
+                return NotFound();
+            
+            _mapper.Map(updateDTO, recordFromRepo);
+            _repo.UpdateRecord(recordFromRepo);
+            _repo.SaveChanges();
+
+            return NoContent();
         }
     }
 }

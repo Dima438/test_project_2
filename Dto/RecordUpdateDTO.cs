@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DBStuff.Dto
 {
-    public class RecordCreateDTO
+    public class RecordUpdateDTO
     {
         [Required]
         public string Line {get; set;}

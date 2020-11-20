@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using DBStuff.Dto;
 using DBStuff.Models;
 
 namespace DBStuff.Data
@@ -35,5 +36,15 @@ namespace DBStuff.Data
         {
             return (_context.SaveChanges() >= 0);
         }
+
+        public void UpdateRecord(Record record)
+        {
+            //
+        }
+
+        // RecordReadDTO IRepo.GetRecordById(int Id)
+        // {
+        //     throw new System.NotImplementedException();
+        // }
     }
 }

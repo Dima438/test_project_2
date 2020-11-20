@@ -10,6 +10,7 @@ namespace DBStuff.Profiles
         {
             CreateMap<Record, RecordReadDTO>();
             CreateMap<RecordCreateDTO, Record>();
+            CreateMap<RecordUpdateDTO, Record>();
         }
     }
 }
