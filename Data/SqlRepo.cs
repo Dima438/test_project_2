@@ -42,6 +42,14 @@ namespace DBStuff.Data
             //
         }
 
+        public void DeleteRecord(Record record)
+        {
+            if (record == null)
+                throw new System.Exception(nameof(record));
+            
+            _context.Records.Remove(record);
+        }
+
         // RecordReadDTO IRepo.GetRecordById(int Id)
         // {
         //     throw new System.NotImplementedException();

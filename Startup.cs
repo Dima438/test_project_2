@@ -14,6 +14,7 @@ using DBStuff.Data;
 using DBStuff.Models;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
+using Newtonsoft.Json.Serialization;
 
 namespace db_stuff
 {
@@ -31,7 +32,7 @@ namespace db_stuff
             
             services.AddDbContext<RecordContext>(options => options.UseSqlServer
             (Configuration.GetConnectionString("DBConnection")));
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(s => {s.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();});
             // services.AddScoped<IRepo, MockRepo>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<IRepo, SqlRepo>();

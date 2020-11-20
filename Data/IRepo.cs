@@ -11,5 +11,6 @@ namespace DBStuff.Data
         Record GetRecordById (int Id);
         void CreateRecord(Record record);
         void UpdateRecord(Record record);
+        void DeleteRecord(Record record);
     }
 }

@@ -5,6 +5,7 @@ using DBStuff.Data;
 using System.Linq;
 using AutoMapper;
 using DBStuff.Dto;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace DBStuff.Controllers
 {
@@ -75,6 +76,43 @@ namespace DBStuff.Controllers
             
             _mapper.Map(updateDTO, recordFromRepo);
             _repo.UpdateRecord(recordFromRepo);
+            _repo.SaveChanges();
+
+            return NoContent();
+        }
+
+        [HttpPatch("{Id}")]
+        public ActionResult PatchRecord(int id, JsonPatchDocument<RecordUpdateDTO> patch)
+        {
+            Record record;
+            RecordUpdateDTO updateDTO;
+
+            record = _repo.GetRecordById(id);
+            if (record == null)
+                return NotFound();
+            
+            updateDTO = _mapper.Map<RecordUpdateDTO>(record);
+            patch.ApplyTo(updateDTO, ModelState);
+            if (!TryValidateModel(updateDTO))
+                return ValidationProblem(ModelState);
+
+            _mapper.Map(updateDTO, record);
+            _repo.UpdateRecord(record);
+            _repo.SaveChanges();
+
+            return NoContent();
+        }
+
+        [HttpDelete("{Id}")]
+        public ActionResult DeleteRecord(int id)
+        {
+            Record record;
+
+            record = _repo.GetRecordById(id);
+            if (record == null)
+                return NotFound();
+            
+            _repo.DeleteRecord(record);
             _repo.SaveChanges();
 
             return NoContent();
