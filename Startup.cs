@@ -34,6 +34,9 @@ namespace db_stuff
             (Configuration.GetConnectionString("DBConnection")));
             services.AddControllers().AddNewtonsoftJson(s => {s.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();});
             // services.AddScoped<IRepo, MockRepo>();
+
+            // services.AddAuthentication(NegotiateDefaults.AuthenticationScheme).AddNegotiate();
+
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<IRepo, SqlRepo>();
         }

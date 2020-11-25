@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DBStuff.Dto;
 using DBStuff.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DBStuff.Data
 {
@@ -50,9 +51,9 @@ namespace DBStuff.Data
             _context.Records.Remove(record);
         }
 
-        // RecordReadDTO IRepo.GetRecordById(int Id)
-        // {
-        //     throw new System.NotImplementedException();
-        // }
+        public void UploadFile() // ?????????
+        {
+            ;
+        }
     }
 }
