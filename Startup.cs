@@ -58,6 +58,7 @@ namespace db_stuff
             {
                 endpoints.MapControllers();
             });
+
         }
     }
 }

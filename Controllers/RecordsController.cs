@@ -63,6 +63,11 @@ namespace DBStuff.Controllers
             // return Ok(recordReadDTO);
             return CreatedAtRoute(nameof(GetRecordById), new {recordReadDTO.Id}, recordReadDTO); //wtf is this?
         }
+        // [HttpPost("{Id}/upload")]
+        // public ActionResult UploadFile(int id, string file)
+        // {
+
+        // }
 
         [HttpPut("{Id}")]
         public ActionResult UpdateRecord(int id, RecordUpdateDTO updateDTO)
