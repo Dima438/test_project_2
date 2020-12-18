@@ -1,3 +1,8 @@
 what are all those types ? (public void Configure(IApplicationBuilder app, IWebHostEnvironment env))
 what is the difference between controllers (Controller, ControllerBase) ?
 what does one do if packages are incompatible?
+
+database changes after altering the model?
+
+Error:
+Object reference not set to an instance of an object.
