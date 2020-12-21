@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace DBStuff.Models
@@ -11,11 +12,7 @@ namespace DBStuff.Models
         [Required]
         public string AnotherLine {get; set;}
 
-        // public Record(int Id, string Line, string AnotherLine)
-        // {
-        //     this.Id = Id;
-        //     this.Line = Line;
-        //     this.AnotherLine = AnotherLine;
-        // }
+        public virtual ICollection<MyFile> Files { get; set; }
+
     }
 }

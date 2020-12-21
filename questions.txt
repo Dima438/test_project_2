@@ -4,5 +4,6 @@ what does one do if packages are incompatible?
 
 database changes after altering the model?
 
-Error:
-Object reference not set to an instance of an object.
+why cant i use HttpPostedFileBase ? (net framework only?)
+what is the meaning of this: "return CreatedAtRoute(nameof(GetRecordById), new {recordReadDTO.Id}, recordReadDTO);" ??
+what header do i use to send jason and a file from a form? 

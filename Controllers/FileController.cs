@@ -11,12 +11,17 @@ using Microsoft.AspNetCore.Hosting;
 using System;
 using System.IO;
 
+//this controller works sometimes;
+//gotta fill in the name field in rester for whatever reason;
+
+//use controller's request to manually fetch the file
+//[FromRoute] / [FromQuery]
+
 namespace DBStuff.Controllers
 {
     public class FileController : Controller
     {
-        //use controller's request to manually fetch the file
-        //[FromRoute] / [FromQuery]
+        
         [HttpPost]
         [Route("api/file")]
         public ActionResult<string> Upload([FromForm] IFormFile file, [FromServices] IHostingEnvironment environment) //what's this? 
@@ -25,10 +30,9 @@ namespace DBStuff.Controllers
 
             // Console.WriteLine(test_path + "?");
 
-            var item = Request.Form.Files[0];
-
             try
             {
+                var item = Request.Form.Files[0];   
                 // string fileName = $"{environment.ContentRootPath}\\FileTest\\{file.FileName}";
                 string fileName = $"{environment.ContentRootPath}\\FileTest\\{item.FileName}";
 
@@ -36,7 +40,7 @@ namespace DBStuff.Controllers
 
                 using (FileStream stream = System.IO.File.Create(fileName))
                 {
-                    file.CopyTo(stream);
+                    item.CopyTo(stream);
                     stream.Flush();
                 }
 
@@ -44,6 +48,9 @@ namespace DBStuff.Controllers
             }
             catch (Exception e)
             {
+                //
+                Console.WriteLine(e.Message);
+                //
                 return BadRequest(e.Message);
             }
             
