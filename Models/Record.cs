@@ -12,7 +12,7 @@ namespace DBStuff.Models
         [Required]
         public string AnotherLine {get; set;}
 
-        public virtual ICollection<MyFile> Files { get; set; }
+        public MyFile File { get; set; }
 
     }
 }

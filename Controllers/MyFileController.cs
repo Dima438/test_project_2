@@ -23,7 +23,7 @@ namespace DBStuff.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        // [ValidateAntiForgeryToken]
         [Route("api/myfile")]
         public ActionResult<string> Create (RecordCreateDTO createDto, [FromForm] IFormFile upload)
         {
@@ -43,6 +43,7 @@ namespace DBStuff.Controllers
                     {
                         var file = new MyFile
                         {
+                            Id = record.Id,
                             FileName = System.IO.Path.GetFileName(upload.FileName),
                             ContentType = upload.ContentType
                         };
@@ -56,7 +57,7 @@ namespace DBStuff.Controllers
                         byte[] bytes = new byte[upload.Length];
                         fileStream.Read(bytes, 0, (int)upload.Length);    
 
-                        record.Files = new List<MyFile> { file };
+                        record.File = file;
                     }
 
                     _repo.SaveChanges();

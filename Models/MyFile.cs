@@ -4,7 +4,8 @@ namespace DBStuff.Models
 {
     public class MyFile 
     {
-        public int FileId { get; set; }
+        [Key]
+        public int Id { get; set; }
         [StringLength(255)]
         public string FileName { get; set; }
         [StringLength(100)]

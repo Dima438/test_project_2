@@ -6,4 +6,9 @@ database changes after altering the model?
 
 why cant i use HttpPostedFileBase ? (net framework only?)
 what is the meaning of this: "return CreatedAtRoute(nameof(GetRecordById), new {recordReadDTO.Id}, recordReadDTO);" ??
-what header do i use to send jason and a file from a form? 
+what header do i use to send jason and a file from a form?
+how to implement dtos for sending files? how do i send files along with json without pain in the neck?
+
+"The entity type 'MyFile' requires a primary key to be defined.
+If you intended to use a keyless entity type, call 'HasNoKey' in 'OnModelCreating'."
+
