@@ -40,7 +40,7 @@ namespace DBStuff.Data
 
         public void UpdateRecord(Record record)
         {
-            //
+            _context.SaveChanges();
         }
 
         public void DeleteRecord(Record record)

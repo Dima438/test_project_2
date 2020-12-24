@@ -2,6 +2,7 @@ using AutoMapper;
 using DBStuff.Data;
 using DBStuff.Dto;
 using DBStuff.Models;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -23,11 +24,9 @@ namespace DBStuff.Controllers
         }
 
         [HttpPut]
-        // [ValidateAntiForgeryToken]
         [Route("api/myfile/{Id}")]
-        public ActionResult<string> Create ([FromRoute] int id, [FromForm] IFormFile upload)
+        public ActionResult<string> Create ([FromRoute] int id, [FromForm] IFormFile upload, [FromServices] IHostingEnvironment environment)
         {           
-
             try
             {
                 Record recordFromRepo;
@@ -38,38 +37,37 @@ namespace DBStuff.Controllers
                 if (recordFromRepo == null)
                     return NotFound();
 
-                if (ModelState.IsValid)
+                var item = Request.Form.Files[0];   
+                // string fileName = $"{environment.ContentRootPath}\\FileTest\\{file.FileName}";
+
+
+                if (ModelState.IsValid && item != null)
                 {
-                    if (upload != null && upload.Length > 0)
+                    var file = new MyFile
                     {
-                        var file = new MyFile
-                        {
-                            Id = recordFromRepo.Id,
-                            FileName = System.IO.Path.GetFileName(upload.FileName),
-                            ContentType = upload.ContentType
-                        };
+                        Id = recordFromRepo.Id,
+                        FileName = System.IO.Path.GetFileName(item.FileName),
+                        ContentType = item.ContentType
+                    };
 
-                        // using (var reader = new System.IO.BinaryReader(upload.InputStream))
-                        // {
-                        //     file.Content = reader.ReadBytes((int)upload.Length);
-                        // }
+                    // using (var reader = new System.IO.BinaryReader(upload.InputStream))
+                    // {
+                    //     file.Content = reader.ReadBytes((int)upload.Length);
+                    // }
 
-                        using var fileStream = upload.OpenReadStream();
-                        byte[] bytes = new byte[upload.Length];
-                        fileStream.Read(bytes, 0, (int)upload.Length);    
+                    using var fileStream = item.OpenReadStream();
+                    byte[] bytes = new byte[item.Length];
+                    fileStream.Read(bytes, 0, (int)item.Length);    
+                    file.Content = bytes;
+                    recordFromRepo.File = file;
 
-                        recordFromRepo.File = file;
+                    _repo.UpdateRecord(recordFromRepo);
+                    _repo.SaveChanges();
 
-                        _repo.UpdateRecord(recordFromRepo);
-                        _repo.SaveChanges();
-
-                        return Ok("fine");
-                    }
-                    else
-                        return BadRequest("here");
+                    return Ok("fine");
                 }
                 else
-                    return BadRequest("there");
+                    return BadRequest("here");
             }
             catch (Exception ex)
             {

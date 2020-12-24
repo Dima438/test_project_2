@@ -81,7 +81,8 @@ namespace db_stuff.Migrations
 
             modelBuilder.Entity("DBStuff.Models.Record", b =>
                 {
-                    b.Navigation("File");
+                    b.Navigation("File")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

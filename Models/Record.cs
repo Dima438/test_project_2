@@ -11,7 +11,7 @@ namespace DBStuff.Models
         public string Line {get; set;}
         [Required]
         public string AnotherLine {get; set;}
-
+        [Required]
         public MyFile File { get; set; }
 
     }

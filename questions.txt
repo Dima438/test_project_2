@@ -12,3 +12,7 @@ how to implement dtos for sending files? how do i send files along with json wit
 "The entity type 'MyFile' requires a primary key to be defined.
 If you intended to use a keyless entity type, call 'HasNoKey' in 'OnModelCreating'."
 
+"Database operation expected to affect 1 row(s) but actually affected 0 row(s).
+Data may have been modified or deleted since entities were loaded.
+See http://go.microsoft.com/fwlink/?LinkId=527962 for information on understanding and handling optimistic concurrency exceptions."
+
