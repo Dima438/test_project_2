@@ -19,6 +19,21 @@ namespace db_stuff.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.0");
 
+            modelBuilder.Entity("DBStuff.Models.DbTest", b =>
+                {
+                    b.Property<int>("aNumber")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("aString")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("aNumber");
+
+                    b.ToTable("Tests");
+                });
+
             modelBuilder.Entity("DBStuff.Models.Record", b =>
                 {
                     b.Property<int>("Id")
