@@ -48,6 +48,9 @@ namespace db_stuff.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("IdString")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Line")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");

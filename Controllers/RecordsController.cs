@@ -6,6 +6,7 @@ using System.Linq;
 using AutoMapper;
 using DBStuff.Dto;
 using Microsoft.AspNetCore.JsonPatch;
+using DBStuff.Support;
 
 namespace DBStuff.Controllers
 {
@@ -16,12 +17,15 @@ namespace DBStuff.Controllers
         private readonly IRepo _repo;
         private readonly IMapper _mapper;
 
-        public RecordsController(IRepo repo, IMapper mapper)
+        private readonly IFileRepo _fileRepo;
+
+        public RecordsController(IRepo repo, IFileRepo fileRepo, IMapper mapper)
         {
             _repo = repo;
             _mapper = mapper;
+            _fileRepo = fileRepo;
         }
-        // private readonly MockRepo _mock_repo = new MockRepo();
+        
         [HttpGet]
         public ActionResult<IEnumerable<RecordReadDTO>> GetAllRecords()
         {
@@ -63,23 +67,56 @@ namespace DBStuff.Controllers
             // return Ok(recordReadDTO);
             return CreatedAtRoute(nameof(GetRecordById), new {recordReadDTO.Id}, recordReadDTO); //wtf is this?
         }
+
         // [HttpPost("{Id}/upload")]
         // public ActionResult UploadFile(int id, string file)
         // {
 
         // }
 
-        [HttpPut("{Id}")]
-        public ActionResult UpdateRecord(int id, RecordUpdateDTO updateDTO)
+        // [HttpPut("{Id}")]
+        // public ActionResult UpdateRecord(int id, RecordUpdateDTO updateDTO)
+        // {
+        //     Record recordFromRepo;
+
+        //     recordFromRepo = _repo.GetRecordById(id);
+
+        //     if (recordFromRepo == null)
+        //         return NotFound();
+            
+        //     _mapper.Map(updateDTO, recordFromRepo);
+        //     _repo.UpdateRecord(recordFromRepo);
+        //     _repo.SaveChanges();
+
+        //     return NoContent();
+        // }
+
+        
+        [HttpPut("{Id}/{fileId}")]
+        public ActionResult UpdateRecord(int id, int fileId)
         {
             Record recordFromRepo;
+            List<int> indicies;
 
             recordFromRepo = _repo.GetRecordById(id);
 
             if (recordFromRepo == null)
                 return NotFound();
             
-            _mapper.Map(updateDTO, recordFromRepo);
+            if (fileId < _fileRepo.GetIndex())
+            {
+                if (recordFromRepo.IdString == null)
+                    recordFromRepo.IdString = "";
+
+                indicies = StringToList.GetIntList(recordFromRepo.IdString);
+
+                if (indicies.Contains(fileId))
+                    return BadRequest();
+
+                recordFromRepo.IdString += " ";
+                recordFromRepo.IdString += fileId.ToString();
+            }
+
             _repo.UpdateRecord(recordFromRepo);
             _repo.SaveChanges();
 

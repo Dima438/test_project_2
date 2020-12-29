@@ -54,14 +54,6 @@ namespace DBStuff.Controllers
         {           
             try
             {
-                // Record recordFromRepo;
-                // // RecordReadDTO recordReadDTO;
-
-                // recordFromRepo = _repo.GetRecordById(id);
-
-                // if (recordFromRepo == null)
-                //     return NotFound();
-
                 var file = _fileRepo.GetFileById(id);
 
                 if (file == null)
@@ -73,18 +65,6 @@ namespace DBStuff.Controllers
 
                 if (ModelState.IsValid && item != null)
                 {
-                    // var file = new MyFile
-                    // {
-                    //     Id = recordFromRepo.Id,
-                    //     FileName = System.IO.Path.GetFileName(item.FileName),
-                    //     ContentType = item.ContentType
-                    // };
-
-                    // using (var reader = new System.IO.BinaryReader(upload.InputStream))
-                    // {
-                    //     file.Content = reader.ReadBytes((int)upload.Length);
-                    // }
-
                     using var fileStream = item.OpenReadStream();
                     byte[] bytes = new byte[item.Length];
                     fileStream.Read(bytes, 0, (int)item.Length);    
@@ -114,9 +94,6 @@ namespace DBStuff.Controllers
 
             // Console.WriteLine(test_path + "?");
 
-            // var record = _repo.GetRecordById(id);
-            // var item = record.Content;
-
             var file = _fileRepo.GetFileById(id);
             var item = file.Content;
 
@@ -143,24 +120,5 @@ namespace DBStuff.Controllers
             }
             
         }
-
-        // public HttpResponseMessage Generate()
-        // {
-        //     var stream = new MemoryStream();
-
-        //     var result = new HttpResponseMessage(HttpStatusCode.OK)
-        //     {
-        //         Content = new ByteArrayContent(stream.ToArray())
-        //     };
-        //     result.Content.Headers.ContentDisposition =
-        //         new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment")
-        //     {
-        //         FileName = "file"
-        //     };
-        //     result.Content.Headers.ContentType =
-        //         new MediaTypeHeaderValue("application/octet-stream");
-
-        //     return result;
-        // }
     }
 }
