@@ -39,6 +39,7 @@ namespace db_stuff
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<IRepo, SqlRepo>();
+            services.AddScoped<IFileRepo, SqlFileRepo>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

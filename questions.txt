@@ -2,11 +2,7 @@ what are all those types ? (public void Configure(IApplicationBuilder app, IWebH
 what is the difference between controllers (Controller, ControllerBase) ?
 what does one do if packages are incompatible?
 
-add filename field to record?
-
-database changes after altering the model?
-separate db for files? attach file id to each record?
-how to link two databases?
+where to put the id counter?
 
 Error:
 Object reference not set to an instance of an object.

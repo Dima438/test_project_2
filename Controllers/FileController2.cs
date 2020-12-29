@@ -19,12 +19,33 @@ namespace DBStuff.Controllers
     public class FileController2 : ControllerBase
     {
         private readonly IRepo _repo;
+        private readonly IFileRepo _fileRepo;
         private readonly IMapper _mapper;
 
-        public FileController2(IRepo repo, IMapper mapper)
+        public FileController2(IRepo repo, IFileRepo fileRepo, IMapper mapper)
         {
             _repo = repo;
+            _fileRepo = fileRepo;
             _mapper = mapper;
+
+            // Console.WriteLine("constructor called\n");
+        }
+
+
+       [HttpPost]
+       [Route("api/file")]
+        public ActionResult<int> CreateFile()
+        {
+            DbTest file;
+            int id;
+
+            id = _fileRepo.GetIndex();
+            file = new DbTest{Id = 0, Name = "file" + id.ToString()}; //why does this work? 
+
+            _fileRepo.UploadFile(file);
+            _fileRepo.SaveChanges();
+
+            return Ok(id);
         }
 
         [HttpPut]
@@ -33,12 +54,17 @@ namespace DBStuff.Controllers
         {           
             try
             {
-                Record recordFromRepo;
-                // RecordReadDTO recordReadDTO;
+                // Record recordFromRepo;
+                // // RecordReadDTO recordReadDTO;
 
-                recordFromRepo = _repo.GetRecordById(id);
+                // recordFromRepo = _repo.GetRecordById(id);
 
-                if (recordFromRepo == null)
+                // if (recordFromRepo == null)
+                //     return NotFound();
+
+                var file = _fileRepo.GetFileById(id);
+
+                if (file == null)
                     return NotFound();
 
                 var item = Request.Form.Files[0];   
@@ -62,11 +88,12 @@ namespace DBStuff.Controllers
                     using var fileStream = item.OpenReadStream();
                     byte[] bytes = new byte[item.Length];
                     fileStream.Read(bytes, 0, (int)item.Length);    
-                    recordFromRepo.Content = bytes;
-                    // recordFromRepo.File = file;
+                    file.Content = bytes;
 
-                    _repo.UpdateRecord(recordFromRepo);
-                    _repo.SaveChanges();
+                    // recordFromRepo.Content = bytes;
+                    // // recordFromRepo.File = file;
+
+                    _fileRepo.SaveChanges();
 
                     return Ok("fine");
                 }
@@ -81,14 +108,17 @@ namespace DBStuff.Controllers
 
         [HttpGet]
         [Route("api/file/{Id}")]
-        public ActionResult<string> Upload(int id, [FromServices] IHostingEnvironment environment) //what's this? 
+        public ActionResult<string> Upload(int id, [FromServices] IHostingEnvironment environment)
         {
             // string test_path = $"{environment.ContentRootPath}";
 
             // Console.WriteLine(test_path + "?");
 
-            var record = _repo.GetRecordById(id);
-            var item = record.Content;
+            // var record = _repo.GetRecordById(id);
+            // var item = record.Content;
+
+            var file = _fileRepo.GetFileById(id);
+            var item = file.Content;
 
             try
             {

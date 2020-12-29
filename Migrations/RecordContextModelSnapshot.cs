@@ -21,17 +21,20 @@ namespace db_stuff.Migrations
 
             modelBuilder.Entity("DBStuff.Models.DbTest", b =>
                 {
-                    b.Property<int>("aNumber")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<string>("aString")
+                    b.Property<byte[]>("Content")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("aNumber");
+                    b.HasKey("Id");
 
-                    b.ToTable("Tests");
+                    b.ToTable("Files");
                 });
 
             modelBuilder.Entity("DBStuff.Models.Record", b =>
@@ -44,9 +47,6 @@ namespace db_stuff.Migrations
                     b.Property<string>("AnotherLine")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<byte[]>("Content")
-                        .HasColumnType("varbinary(max)");
 
                     b.Property<string>("Line")
                         .IsRequired()

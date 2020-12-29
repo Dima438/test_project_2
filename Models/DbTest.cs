@@ -6,7 +6,8 @@ namespace DBStuff.Models
     public class DbTest
     {
         [Key]
-        public int aNumber {get; set;}
-        public string aString {get; set;}
+        public int Id {get; set;}
+        public string Name {get; set;}
+        public byte[] Content { get; set; }
     }
 }

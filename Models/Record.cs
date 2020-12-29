@@ -11,6 +11,5 @@ namespace DBStuff.Models
         [Required]
         public string AnotherLine {get; set;}
 
-        public byte[] Content { get; set; }
     }
 }
